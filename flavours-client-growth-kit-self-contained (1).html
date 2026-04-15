@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flavours Client Growth Kit</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=boska@400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="light"] {
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem; --space-16: 4rem; --space-20: 5rem;
+      --color-bg:#f7f6f2; --color-surface:#f9f8f5; --color-surface-2:#fbfbf9; --color-surface-offset:#f3f0ec; --color-border:#d4d1ca; --color-divider:#dcd9d5;
+      --color-text:#28251d; --color-text-muted:#66645f; --color-text-faint:#9c9992; --color-text-inverse:#f9f8f4;
+      --color-primary:#01696f; --color-primary-hover:#0c4e54; --color-primary-highlight:#cedcd8; --color-success:#437a22; --color-warning:#964219;
+      --radius-sm:0.375rem; --radius-md:0.5rem; --radius-lg:0.75rem; --radius-xl:1rem; --radius-full:9999px;
+      --shadow-sm: 0 1px 2px rgba(40,37,29,.06); --shadow-md: 0 8px 24px rgba(40,37,29,.08); --shadow-lg: 0 18px 40px rgba(40,37,29,.12);
+      --font-body:'Satoshi', Inter, sans-serif; --font-display:'Boska', Georgia, serif;
+      --content-default: 1100px;
+    }
+    [data-theme="dark"] {
+      --color-bg:#171614; --color-surface:#1c1b19; --color-surface-2:#201f1d; --color-surface-offset:#1d1c1a; --color-border:#393836; --color-divider:#262523;
+      --color-text:#cdccca; --color-text-muted:#a7a49f; --color-text-faint:#7a7772; --color-text-inverse:#171614;
+      --color-primary:#4f98a3; --color-primary-hover:#227f8b; --color-primary-highlight:#313b3b; --color-success:#6daa45; --color-warning:#bb653b;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.2); --shadow-md: 0 8px 24px rgba(0,0,0,.28); --shadow-lg: 0 18px 40px rgba(0,0,0,.35);
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { font-family:var(--font-body); font-size:var(--text-base); line-height:1.6; color:var(--color-text); background:var(--color-bg); }
+    img, svg { display:block; max-width:100%; }
+    a, button { transition:all .18s ease; }
+    .skip-link{position:absolute;left:-9999px;top:auto}.skip-link:focus{left:1rem;top:1rem;background:var(--color-surface);padding:.75rem 1rem;border-radius:var(--radius-md);z-index:999}
+    .container { width:min(calc(100% - 2rem), var(--content-default)); margin-inline:auto; }
+    header { position:sticky; top:0; z-index:20; backdrop-filter: blur(12px); background:color-mix(in srgb, var(--color-bg) 82%, transparent); border-bottom:1px solid color-mix(in srgb, var(--color-text) 10%, transparent); }
+    .nav { display:flex; align-items:center; justify-content:space-between; gap:var(--space-4); padding:var(--space-4) 0; }
+    .brand { display:flex; align-items:center; gap:var(--space-3); text-decoration:none; color:inherit; }
+    .brand-mark { width:40px; height:40px; padding:8px; border-radius:12px; background:var(--color-surface); border:1px solid color-mix(in srgb, var(--color-text) 10%, transparent); box-shadow:var(--shadow-sm); }
+    .brand-name { font-weight:700; letter-spacing:-.02em; }
+    .nav-links { display:flex; gap:var(--space-4); flex-wrap:wrap; }
+    .nav-links a { color:var(--color-text-muted); text-decoration:none; font-size:var(--text-sm); }
+    .nav-links a:hover { color:var(--color-text); }
+    .theme-btn { min-width:44px; min-height:44px; border-radius:var(--radius-full); border:1px solid color-mix(in srgb, var(--color-text) 10%, transparent); background:var(--color-surface); color:var(--color-text); }
+    .hero { padding: clamp(var(--space-10), 8vw, var(--space-20)) 0 var(--space-10); }
+    .eyebrow { display:inline-flex; align-items:center; gap:.5rem; padding:.45rem .8rem; border-radius:var(--radius-full); background:var(--color-primary-highlight); color:var(--color-primary); font-size:var(--text-sm); font-weight:700; }
+    h1 { font-family:var(--font-display); font-size:var(--text-2xl); line-height:1.02; letter-spacing:-.03em; max-width:12ch; margin-top:var(--space-6); }
+    .lede { max-width:68ch; color:var(--color-text-muted); margin-top:var(--space-4); }
+    .hero-grid { display:grid; grid-template-columns:1.3fr .9fr; gap:var(--space-8); align-items:start; margin-top:var(--space-8); }
+    .panel { background:var(--color-surface); border:1px solid color-mix(in srgb, var(--color-text) 10%, transparent); border-radius:var(--radius-xl); box-shadow:var(--shadow-md); }
+    .panel-inner { padding:var(--space-6); }
+    .kpi-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:var(--space-4); }
+    .kpi { padding:var(--space-4); border-radius:var(--radius-lg); background:var(--color-surface-2); border:1px solid color-mix(in srgb, var(--color-text) 8%, transparent); }
+    .kpi strong { display:block; font-size:var(--text-xl); line-height:1.1; }
+    section { padding:var(--space-10) 0; }
+    h2 { font-size:var(--text-xl); line-height:1.1; letter-spacing:-.02em; margin-bottom:var(--space-4); }
+    h3 { font-size:var(--text-lg); line-height:1.2; margin-bottom:var(--space-3); }
+    p { max-width:72ch; }
+    .muted { color:var(--color-text-muted); }
+    .grid-2, .grid-3 { display:grid; gap:var(--space-4); }
+    .grid-2 { grid-template-columns:repeat(2,1fr); }
+    .grid-3 { grid-template-columns:repeat(3,1fr); }
+    .card { background:var(--color-surface); border:1px solid color-mix(in srgb, var(--color-text) 10%, transparent); border-radius:var(--radius-xl); padding:var(--space-5); box-shadow:var(--shadow-sm); }
+    .badge { display:inline-block; font-size:var(--text-xs); padding:.35rem .65rem; border-radius:var(--radius-full); background:var(--color-surface-offset); color:var(--color-text-muted); margin-bottom:var(--space-3); }
+    ul { padding-left:1.1rem; }
+    li + li { margin-top:.45rem; }
+    .flow { display:grid; gap:var(--space-4); }
+    .step { display:grid; grid-template-columns:auto 1fr; gap:var(--space-4); align-items:start; }
+    .step-num { width:2.25rem; height:2.25rem; border-radius:999px; background:var(--color-primary); color:var(--color-text-inverse); display:grid; place-items:center; font-weight:700; }
+    .cta-row { display:flex; gap:var(--space-3); flex-wrap:wrap; margin-top:var(--space-6); }
+    .btn { min-height:44px; padding:.8rem 1rem; border-radius:var(--radius-full); text-decoration:none; display:inline-flex; align-items:center; justify-content:center; font-weight:700; }
+    .btn-primary { background:var(--color-primary); color:var(--color-text-inverse); }
+    .btn-primary:hover { background:var(--color-primary-hover); }
+    .btn-secondary { border:1px solid color-mix(in srgb, var(--color-text) 12%, transparent); color:var(--color-text); background:var(--color-surface); }
+    .table-wrap { overflow:auto; border-radius:var(--radius-xl); }
+    table { width:100%; border-collapse:collapse; background:var(--color-surface); border:1px solid color-mix(in srgb, var(--color-text) 10%, transparent); }
+    th, td { text-align:left; padding:1rem; border-bottom:1px solid var(--color-divider); vertical-align:top; }
+    th { font-size:var(--text-sm); color:var(--color-text-muted); }
+    .footer { padding:var(--space-10) 0 var(--space-12); color:var(--color-text-muted); }
+    .highlight { background:linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--color-primary) 18%, transparent) 55%); }
+    @media (max-width: 900px){ .hero-grid,.grid-2,.grid-3{grid-template-columns:1fr;} .nav-links{display:none;} h1{max-width:14ch;} }
+  
+    .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4);margin-top:var(--space-4)}
+    .tool-card{background:var(--color-surface);border:1px solid color-mix(in srgb, var(--color-text) 10%, transparent);border-radius:var(--radius-xl);padding:var(--space-5);box-shadow:var(--shadow-sm)}
+    .tool-card textarea,.tool-card input,.tool-card select{width:100%;margin-top:.6rem;padding:.8rem;border-radius:var(--radius-md);border:1px solid color-mix(in srgb, var(--color-text) 14%, transparent);background:var(--color-surface-2);color:var(--color-text)}
+    .tool-card button{margin-top:.8rem;min-height:44px;padding:.8rem 1rem;border-radius:var(--radius-full);background:var(--color-primary);color:var(--color-text-inverse);font-weight:700}
+    .output-box{margin-top:.9rem;padding:1rem;border-radius:var(--radius-lg);background:var(--color-surface-2);border:1px solid color-mix(in srgb, var(--color-text) 10%, transparent);min-height:96px;white-space:pre-wrap}
+    .download-list a{display:block;margin-top:.6rem}
+    @media (max-width: 900px){.tool-grid{grid-template-columns:1fr;}}
+
+  
+    .mini-actions{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem}
+    .mini-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.75rem 1rem;border-radius:999px;text-decoration:none;font-weight:700;border:1px solid color-mix(in srgb, var(--color-text) 12%, transparent);background:var(--color-surface-2);color:var(--color-text)}
+    .mini-btn.primary{background:var(--color-primary);color:var(--color-text-inverse);border-color:var(--color-primary)}
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header>
+  <div class="container nav">
+    <a class="brand" href="#top" aria-label="Flavours Client Growth Kit home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Flavours mark">
+          <path d="M12 30c6-1 8-8 12-16 2 7 5 12 12 13"/>
+          <path d="M15 35c6 2 13 2 19 0"/>
+          <circle cx="24" cy="24" r="18" opacity=".16"/>
+        </svg>
+      </span>
+      <span>
+        <span class="brand-name">Flavours Client Growth Kit</span><br>
+        <span class="muted" style="font-size:var(--text-xs)">Retention + referral implementation pack</span>
+      </span>
+    </a>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="#strategy">Strategy</a>
+      <a href="#segments">Segments</a>
+      <a href="#workflow">Workflow</a>
+      <a href="#assets">Pack contents</a>
+      <a href="#launch">Launch plan</a>
+    </nav>
+    <button class="theme-btn" data-theme-toggle aria-label="Switch theme">◐</button>
+  </div>
+</header>
+<main id="main">
+  <section class="hero container" id="top">
+    <span class="eyebrow">Built for thesis delivery and real business use</span>
+    <h1>A practical system to turn <span class="highlight">repeat bookings</span> and <span class="highlight">referrals</span> into a repeatable process.</h1>
+    <p class="lede">This implementation pack translates your desk and field research into one operating product Flavours can actually use: a segmented retention and referral system for both corporate and private clients, with triggers, scripts, tracking logic, ownership, and a low-friction rollout plan.</p>
+    <div class="hero-grid">
+      <div class="panel"><div class="panel-inner">
+        <h3>What this product does</h3>
+        <div class="flow">
+          <div class="step"><div class="step-num">1</div><div><strong>Captures client context</strong><p class="muted">Store segment, booking type, last event, satisfaction, referral source, and next-action date.</p></div></div>
+          <div class="step"><div class="step-num">2</div><div><strong>Triggers timed follow-up</strong><p class="muted">Thank-you, feedback request, rebooking prompt, and referral ask happen at set moments.</p></div></div>
+          <div class="step"><div class="step-num">3</div><div><strong>Differentiates by segment</strong><p class="muted">Corporate clients receive professional, value-based rewards; private clients receive lighter-touch, personal follow-up.</p></div></div>
+          <div class="step"><div class="step-num">4</div><div><strong>Tracks outcomes</strong><p class="muted">Monitor repeat bookings, redeemed offers, referrals created, referred bookings won, and programme ROI.</p></div></div>
+        </div>
+      </div></div>
+      <div class="panel"><div class="panel-inner">
+        <h3>Why this fits Flavours</h3>
+        <div class="kpi-grid">
+          <div class="kpi"><span class="muted">Core market</span><strong>Corporate-led</strong><span class="muted">High repeat potential across the year</span></div>
+          <div class="kpi"><span class="muted">Private market</span><strong>Event-led</strong><span class="muted">Occasional but emotionally driven rebookings</span></div>
+          <div class="kpi"><span class="muted">Research signal</span><strong>Discounts matter</strong><span class="muted">But format must differ by segment</span></div>
+          <div class="kpi"><span class="muted">Execution style</span><strong>Simple first</strong><span class="muted">Use sheets, forms, templates, and clear ownership</span></div>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+  <section id="strategy">
+    <div class="container grid-2">
+      <div>
+        <h2>Product concept</h2>
+        <p class="muted">The product is a <strong>Flavours Client Growth Kit</strong>: a full implementation pack that gives the business a workable retention and referral structure without requiring a complex CRM rollout on day one.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Core outcome</span>
+        <h3>Standardise what currently happens informally</h3>
+        <p class="muted">Move from ad hoc thank-yous and organic word-of-mouth to a managed system with timing, segmentation, templates, tracking, and measurement.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="segments">
+    <div class="container">
+      <h2>Two segment model</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Segment</th><th>Behaviour</th><th>Best loyalty mechanism</th><th>Best referral mechanism</th><th>Tone</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Corporate</strong></td>
+              <td>Frequent bookings, strong need for reliability, easy ordering, budget fit, and dietary flexibility.</td>
+              <td>Annual-spend pricing benefits, volume discounts, tier perks, or points redeemable for extras.</td>
+              <td>Future-event credit or professional reward with simple tracking and minimal friction.</td>
+              <td>Professional, efficient, partnership-oriented.</td>
+            </tr>
+            <tr>
+              <td><strong>Private</strong></td>
+              <td>Occasion-based bookings such as birthdays and anniversaries, with rebooking intent driven by experience and timing.</td>
+              <td>Small next-booking discount, seasonal menu preview, personal follow-up with event ideas.</td>
+              <td>Low-key thank-you, optional reward, simple acknowledgement rather than heavy incentive mechanics.</td>
+              <td>Warm, personal, celebratory.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="workflow">
+    <div class="container">
+      <h2>Operating workflow</h2>
+      <div class="grid-3">
+        <div class="card"><span class="badge">Stage 1</span><h3>After every event</h3><ul><li>Mark client as corporate or private.</li><li>Log event type, date, value, and contact owner.</li><li>Record any dietary or service notes worth reusing.</li></ul></div>
+        <div class="card"><span class="badge">Stage 2</span><h3>Within 24–72 hours</h3><ul><li>Send thank-you message.</li><li>Request quick feedback.</li><li>If satisfaction is positive, open the referral prompt.</li></ul></div>
+        <div class="card"><span class="badge">Stage 3</span><h3>Next-booking activation</h3><ul><li>Corporate: apply spend milestone or account benefit.</li><li>Private: send event reminder or seasonal inspiration.</li><li>Set a next-action date for follow-up.</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="assets">
+    <div class="container">
+      <h2>Implementation pack contents</h2>
+      <div class="grid-2">
+        <div class="card"><span class="badge">Tracking layer</span><h3>1. Client Growth Tracker</h3><ul><li>Client ID, business/private segment, booking history, last order date, annual spend, owner, status, and next action.</li><li>Referral source tracking and conversion tracking.</li><li>Simple KPI area for repeat rate, referred bookings, and offer redemption.</li></ul><div class="mini-actions"><a class="mini-btn primary" href="#" onclick="downloadWorkbook(); return false;">Download Excel tracker</a><a class="mini-btn" href="#tools">Open tools section</a></div></div>
+        <div class="card"><span class="badge">Process layer</span><h3>2. Follow-up workflow sheet</h3><ul><li>Defines which message goes out when.</li><li>Separates post-event, reactivation, rebooking, and referral actions.</li><li>Adds owner, trigger, channel, and success metric.</li></ul><div class="mini-actions"><a class="mini-btn primary" href="#" onclick="downloadWorkbook(); return false;">Open workflow workbook</a></div></div>
+        <div class="card"><span class="badge">Message layer</span><h3>3. Message template bank</h3><ul><li>Corporate thank-you email.</li><li>Corporate referral ask.</li><li>Private thank-you email.</li><li>Private rebooking reminder.</li><li>Reactivation and review-request variations.</li></ul><div class="mini-actions"><a class="mini-btn primary" href="data:text/plain;charset=utf-8,EMAIL%20TEMPLATE%20BANK%0A%0A1.%20Corporate%20thank-you%0ASubject%3A%20Thank%20you%20for%20choosing%20Flavours%0AHi%20%5BName%5D%2C%0AThank%20you%20for%20choosing%20Flavours%20Catering%20%2B%20Events%20for%20your%20recent%20%5Bevent%20type%5D.%20We%20really%20appreciate%20the%20opportunity%20to%20support%20your%20team%20and%20hope%20everything%20ran%20smoothly%20on%20the%20day.%20If%20there%20is%20any%20feedback%20you%20would%20like%20to%20share%2C%20we%20would%20love%20to%20hear%20it.%20We%20would%20also%20be%20happy%20to%20assist%20with%20any%20upcoming%20meetings%2C%20team%20events%20or%20seasonal%20functions.%0AWarm%20regards%2C%0A%5BSender%5D%0A%0A2.%20Corporate%20referral%20ask%0ASubject%3A%20A%20quick%20thank-you%0AHi%20%5BName%5D%2C%0AWe%20are%20so%20glad%20we%20could%20support%20your%20recent%20event.%20If%20you%20know%20another%20team%2C%20office%20or%20event%20organiser%20who%20may%20need%20reliable%20catering%2C%20we%20would%20truly%20appreciate%20an%20introduction.%20As%20a%20thank-you%2C%20approved%20referrals%20that%20turn%20into%20a%20booking%20can%20receive%20a%20credit%20towards%20a%20future%20Flavours%20order.%0ABest%2C%0A%5BSender%5D%0A%0A3.%20Private%20thank-you%0ASubject%3A%20Thank%20you%20for%20celebrating%20with%20Flavours%0AHi%20%5BName%5D%2C%0AThank%20you%20for%20letting%20us%20be%20part%20of%20your%20recent%20%5Bevent%20type%5D.%20We%20hope%20the%20occasion%20was%20memorable%20for%20you%20and%20your%20guests.%20If%20you%20are%20planning%20another%20celebration%20in%20the%20future%2C%20we%20would%20love%20to%20help%20again.%0AWarmly%2C%0A%5BSender%5D%0A%0A4.%20Private%20rebooking%20reminder%0ASubject%3A%20Planning%20another%20special%20occasion%3F%0AHi%20%5BName%5D%2C%0AWe%20hope%20you%20have%20been%20well%20since%20your%20last%20event%20with%20Flavours.%20If%20you%20have%20an%20upcoming%20birthday%2C%20anniversary%20or%20family%20gathering%2C%20we%20would%20love%20to%20help%20make%20it%20easy%20and%20delicious%20again.%20As%20a%20returning%20client%2C%20we%20would%20be%20happy%20to%20offer%20%5Binsert%20loyalty%20gesture%5D.%0AKind%20regards%2C%0A%5BSender%5D%0A%0A5.%20Reactivation%0ASubject%3A%20We%20would%20love%20to%20help%20with%20your%20next%20event%0AHi%20%5BName%5D%2C%0AIt%20has%20been%20a%20little%20while%20since%20your%20last%20event%20with%20Flavours%2C%20so%20we%20wanted%20to%20check%20in.%20If%20you%20have%20anything%20coming%20up%2C%20from%20team%20catering%20to%20a%20private%20celebration%2C%20we%20would%20be%20delighted%20to%20help.%20If%20useful%2C%20we%20can%20also%20send%20a%20few%20fresh%20menu%20ideas%20tailored%20to%20your%20occasion.%0ABest%20wishes%2C%0A%5BSender%5D%0A" download="email-template-bank.txt">Download templates</a><a class="mini-btn" href="#tools">Use message builder</a></div></div>
+        <div class="card"><span class="badge">Offer layer</span><h3>4. Programme rules</h3><ul><li>Corporate loyalty: spend threshold or tier logic.</li><li>Corporate referral: future-event credit.</li><li>Private loyalty: modest discount or menu perk.</li><li>Private referral: optional small thank-you or handwritten-feel acknowledgement.</li></ul><div class="mini-actions"><a class="mini-btn primary" href="data:text/plain;charset=utf-8,PROGRAMME%20RULES%0A%0A1.%20Corporate%20loyalty%0A-%20Reward%20structure%3A%20better%20pricing%20or%20account%20benefit%20after%20predefined%20annual%20spend%20threshold.%0A-%20Possible%20benefits%3A%20priority%20booking%2C%20free%20delivery%20on%20selected%20orders%2C%20complimentary%20upgrade%2C%20or%20account-level%20discount.%0A-%20Tone%3A%20professional%20and%20partnership-based.%0A%0A2.%20Corporate%20referrals%0A-%20Reward%20only%20after%20referred%20client%20completes%20a%20paid%20booking.%0A-%20Reward%20type%3A%20future-event%20credit%20or%20percentage%20discount%20on%20next%20corporate%20order.%0A-%20Keep%20process%20short%3A%20one%20referral%20form%2C%20one%20confirmation%2C%20one%20reward%20trigger.%0A%0A3.%20Private%20loyalty%0A-%20Reward%20structure%3A%20small%20next-booking%20discount%20or%20occasional%20seasonal%20menu%20perk.%0A-%20Additional%20appreciation%3A%20personal%20follow-up%20with%20ideas%20for%20the%20next%20occasion.%0A-%20Tone%3A%20warm%2C%20simple%2C%20non-pushy.%0A%0A4.%20Private%20referrals%0A-%20Reward%20can%20be%20optional%20or%20low-key.%0A-%20Use%20thank-you%20language%20first%2C%20reward%20second.%0A-%20Avoid%20overcomplicating%20the%20experience.%0A%0A5.%20Timing%20rules%0A-%20Thank-you%20within%2024-72%20hours%20after%20event.%0A-%20Feedback%20request%20shortly%20after%20thank-you.%0A-%20Referral%20ask%20only%20after%20positive%20satisfaction%20signal.%0A-%20Rebooking%20reminder%20linked%20to%20likely%20next%20event%20timing.%0A" download="programme-rules.txt">Download programme rules</a><a class="mini-btn" href="#tools">Use reward selector</a></div></div>
+        <div class="card"><span class="badge">Execution layer</span><h3>5. Referral capture form</h3><ul><li>Referrer name and contact.</li><li>Referred lead name, company/event type, and consent note if needed.</li><li>Source code field for tracking attribution.</li></ul><div class="mini-actions"><a class="mini-btn primary" href="data:text/plain;charset=utf-8,REFERRAL%20FORM%20FIELDS%0A-%20Referrer%20full%20name%0A-%20Referrer%20email%0A-%20Referrer%20phone%0A-%20Referrer%20segment%20%28Corporate/Private%29%0A-%20Referred%20contact%20name%0A-%20Referred%20company%20or%20event%20type%0A-%20Referred%20email%20or%20phone%0A-%20Short%20note%20about%20the%20event%20opportunity%0A-%20Consent%20confirmation%20checkbox%0A-%20Internal%20source%20code%20field%0A" download="referral-form-fields.txt">Download referral form fields</a></div></div>
+        <div class="card"><span class="badge">Management layer</span><h3>6. Launch and governance guide</h3><ul><li>Who owns data entry.</li><li>Who sends follow-ups.</li><li>How often the sheet is reviewed.</li><li>Which KPIs are checked monthly.</li></ul><div class="mini-actions"><a class="mini-btn primary" href="data:text/plain;charset=utf-8,STAFF%20GUIDE%0A%0APurpose%3A%0AUse%20this%20kit%20to%20make%20repeat%20booking%20and%20referral%20activity%20consistent%2C%20measurable%20and%20easy%20to%20manage.%0A%0AWho%20does%20what%3A%0A-%20Sales/admin%20owner%20updates%20the%20tracker%20after%20every%20event.%0A-%20Account/event%20owner%20sends%20follow-up%20messages.%0A-%20Manager%20reviews%20KPI%20dashboard%20monthly.%0A%0AMonthly%20review%20questions%3A%0A-%20Which%20clients%20are%20due%20for%20follow-up%3F%0A-%20Which%20referrals%20converted%20to%20bookings%3F%0A-%20Which%20clients%20are%20at%20risk%20of%20going%20inactive%3F%0A-%20Which%20reward%20types%20are%20being%20used%20most%3F%0A-%20Are%20corporate%20and%20private%20clients%20receiving%20the%20right%20type%20of%20follow-up%3F%0A%0AMinimum%20operating%20rule%3A%0AEvery%20completed%20event%20must%20end%20with%20a%20logged%20next%20action.%0A" download="staff-guide.txt">Download staff guide</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="launch">
+    <div class="container grid-2">
+      <div>
+        <h2>90-day launch plan</h2>
+        <div class="flow">
+          <div class="step"><div class="step-num">A</div><div><strong>Weeks 1–2:</strong> build the sheet, confirm reward rules, and clean existing client data.</div></div>
+          <div class="step"><div class="step-num">B</div><div><strong>Weeks 3–4:</strong> test on a small group of recent corporate and private clients.</div></div>
+          <div class="step"><div class="step-num">C</div><div><strong>Month 2:</strong> start consistent post-event follow-up and referral logging.</div></div>
+          <div class="step"><div class="step-num">D</div><div><strong>Month 3:</strong> review repeat bookings, referral volume, response rates, and practical issues.</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <span class="badge">Success metrics</span>
+        <h3>Measure these from month one</h3>
+        <ul>
+          <li>Repeat booking rate by segment.</li>
+          <li>Number of referrals submitted.</li>
+          <li>Referral-to-booking conversion rate.</li>
+          <li>Offer redemption rate.</li>
+          <li>At-risk clients reactivated.</li>
+          <li>Estimated revenue generated from the programme.</li>
+        </ul>
+        <div class="cta-row">
+          <a href="#assets" class="btn btn-primary">View pack contents</a>
+          <a href="#workflow" class="btn btn-secondary">See workflow</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2>Suggested programme rules</h2>
+      <div class="grid-2">
+        <div class="card">
+          <span class="badge">Corporate model</span>
+          <h3>Simple partnership programme</h3>
+          <ul>
+            <li>After defined annual spend, unlock better pricing or service perks.</li>
+            <li>Referral reward = credit on a future order after referred booking is completed.</li>
+            <li>Optional tier labels for internal use: Core, Preferred, Premium.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="badge">Private model</span>
+          <h3>Light-touch celebration programme</h3>
+          <ul>
+            <li>Returning client receives a small next-booking discount or a menu extra.</li>
+            <li>Referral thank-you stays modest and optional, such as a warm acknowledgement or small perk.</li>
+            <li>Use calendar-style reminders around birthdays, anniversaries, and holiday periods.</li>
+          </ul>
+          <div class="mini-actions"><a class="mini-btn primary" href="data:text/plain;charset=utf-8,PROGRAMME%20RULES%0A%0A1.%20Corporate%20loyalty%0A-%20Reward%20structure%3A%20better%20pricing%20or%20account%20benefit%20after%20predefined%20annual%20spend%20threshold.%0A-%20Possible%20benefits%3A%20priority%20booking%2C%20free%20delivery%20on%20selected%20orders%2C%20complimentary%20upgrade%2C%20or%20account-level%20discount.%0A-%20Tone%3A%20professional%20and%20partnership-based.%0A%0A2.%20Corporate%20referrals%0A-%20Reward%20only%20after%20referred%20client%20completes%20a%20paid%20booking.%0A-%20Reward%20type%3A%20future-event%20credit%20or%20percentage%20discount%20on%20next%20corporate%20order.%0A-%20Keep%20process%20short%3A%20one%20referral%20form%2C%20one%20confirmation%2C%20one%20reward%20trigger.%0A%0A3.%20Private%20loyalty%0A-%20Reward%20structure%3A%20small%20next-booking%20discount%20or%20occasional%20seasonal%20menu%20perk.%0A-%20Additional%20appreciation%3A%20personal%20follow-up%20with%20ideas%20for%20the%20next%20occasion.%0A-%20Tone%3A%20warm%2C%20simple%2C%20non-pushy.%0A%0A4.%20Private%20referrals%0A-%20Reward%20can%20be%20optional%20or%20low-key.%0A-%20Use%20thank-you%20language%20first%2C%20reward%20second.%0A-%20Avoid%20overcomplicating%20the%20experience.%0A%0A5.%20Timing%20rules%0A-%20Thank-you%20within%2024-72%20hours%20after%20event.%0A-%20Feedback%20request%20shortly%20after%20thank-you.%0A-%20Referral%20ask%20only%20after%20positive%20satisfaction%20signal.%0A-%20Rebooking%20reminder%20linked%20to%20likely%20next%20event%20timing.%0A" download="programme-rules.txt">Open private rules</a><a class="mini-btn" href="#tools">Test reward selector</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="tools">
+    <div class="container">
+      <h2>Working tools</h2>
+      <p class="muted">This page now includes practical built-in tools and direct links to the editable workbook and business files.</p>
+      <div class="download-list card">
+        <span class="badge">Downloads</span>
+        <h3>Editable business files</h3>
+        <a href="#" onclick="downloadWorkbook(); return false;">Download the Excel workbook</a>
+        <a href="data:text/plain;charset=utf-8,Sheet%3A%20CLIENT_MASTER%0AColumns%3A%0Aclient_id%0Aclient_name%0Asegment%20%28Corporate/Private%29%0Acontact_name%0Aemail%0Aphone%0Acompany_or_event_group%0Aevent_type%0Afirst_booking_date%0Alast_booking_date%0Alast_booking_value%0Aannual_spend_estimate%0Abooking_frequency_band%0Arfm_priority%0Asatisfaction_status%0Areferral_status%0Areferred_by%0Aloyalty_status%0Anext_action_type%0Anext_action_date%0Aowner%0Anotes%0A%0ASheet%3A%20WORKFLOW_RULES%0Asegment%0Atrigger_stage%0Atrigger_condition%0Aaction%0Achannel%0Atemplate_name%0Aoffer_type%0Aowner%0Asuccess_metric%0A%0ASheet%3A%20REFERRALS%0Areferral_id%0Areferrer_name%0Areferrer_segment%0Areferred_lead_name%0Areferred_company_or_event%0Adate_received%0Astatus%0Aconverted_to_quote%0Aconverted_to_booking%0Abooking_value%0Areward_due%0Areward_redeemed%0Anotes%0A%0ASheet%3A%20KPI_DASHBOARD%0Ametric%0Acorporate%0Aprivate%0Atotal%0Arepeat_booking_rate%0Areferrals_received%0Areferred_bookings%0Aoffer_redemption_rate%0Areactivated_clients%0Aprogramme_revenue_estimate%0A" download="client-growth-tracker-template.txt">Open tracker field list</a>
+        <a href="data:text/plain;charset=utf-8,EMAIL%20TEMPLATE%20BANK%0A%0A1.%20Corporate%20thank-you%0ASubject%3A%20Thank%20you%20for%20choosing%20Flavours%0AHi%20%5BName%5D%2C%0AThank%20you%20for%20choosing%20Flavours%20Catering%20%2B%20Events%20for%20your%20recent%20%5Bevent%20type%5D.%20We%20really%20appreciate%20the%20opportunity%20to%20support%20your%20team%20and%20hope%20everything%20ran%20smoothly%20on%20the%20day.%20If%20there%20is%20any%20feedback%20you%20would%20like%20to%20share%2C%20we%20would%20love%20to%20hear%20it.%20We%20would%20also%20be%20happy%20to%20assist%20with%20any%20upcoming%20meetings%2C%20team%20events%20or%20seasonal%20functions.%0AWarm%20regards%2C%0A%5BSender%5D%0A%0A2.%20Corporate%20referral%20ask%0ASubject%3A%20A%20quick%20thank-you%0AHi%20%5BName%5D%2C%0AWe%20are%20so%20glad%20we%20could%20support%20your%20recent%20event.%20If%20you%20know%20another%20team%2C%20office%20or%20event%20organiser%20who%20may%20need%20reliable%20catering%2C%20we%20would%20truly%20appreciate%20an%20introduction.%20As%20a%20thank-you%2C%20approved%20referrals%20that%20turn%20into%20a%20booking%20can%20receive%20a%20credit%20towards%20a%20future%20Flavours%20order.%0ABest%2C%0A%5BSender%5D%0A%0A3.%20Private%20thank-you%0ASubject%3A%20Thank%20you%20for%20celebrating%20with%20Flavours%0AHi%20%5BName%5D%2C%0AThank%20you%20for%20letting%20us%20be%20part%20of%20your%20recent%20%5Bevent%20type%5D.%20We%20hope%20the%20occasion%20was%20memorable%20for%20you%20and%20your%20guests.%20If%20you%20are%20planning%20another%20celebration%20in%20the%20future%2C%20we%20would%20love%20to%20help%20again.%0AWarmly%2C%0A%5BSender%5D%0A%0A4.%20Private%20rebooking%20reminder%0ASubject%3A%20Planning%20another%20special%20occasion%3F%0AHi%20%5BName%5D%2C%0AWe%20hope%20you%20have%20been%20well%20since%20your%20last%20event%20with%20Flavours.%20If%20you%20have%20an%20upcoming%20birthday%2C%20anniversary%20or%20family%20gathering%2C%20we%20would%20love%20to%20help%20make%20it%20easy%20and%20delicious%20again.%20As%20a%20returning%20client%2C%20we%20would%20be%20happy%20to%20offer%20%5Binsert%20loyalty%20gesture%5D.%0AKind%20regards%2C%0A%5BSender%5D%0A%0A5.%20Reactivation%0ASubject%3A%20We%20would%20love%20to%20help%20with%20your%20next%20event%0AHi%20%5BName%5D%2C%0AIt%20has%20been%20a%20little%20while%20since%20your%20last%20event%20with%20Flavours%2C%20so%20we%20wanted%20to%20check%20in.%20If%20you%20have%20anything%20coming%20up%2C%20from%20team%20catering%20to%20a%20private%20celebration%2C%20we%20would%20be%20delighted%20to%20help.%20If%20useful%2C%20we%20can%20also%20send%20a%20few%20fresh%20menu%20ideas%20tailored%20to%20your%20occasion.%0ABest%20wishes%2C%0A%5BSender%5D%0A" download="email-template-bank.txt">Open email template bank</a>
+        <a href="data:text/plain;charset=utf-8,PROGRAMME%20RULES%0A%0A1.%20Corporate%20loyalty%0A-%20Reward%20structure%3A%20better%20pricing%20or%20account%20benefit%20after%20predefined%20annual%20spend%20threshold.%0A-%20Possible%20benefits%3A%20priority%20booking%2C%20free%20delivery%20on%20selected%20orders%2C%20complimentary%20upgrade%2C%20or%20account-level%20discount.%0A-%20Tone%3A%20professional%20and%20partnership-based.%0A%0A2.%20Corporate%20referrals%0A-%20Reward%20only%20after%20referred%20client%20completes%20a%20paid%20booking.%0A-%20Reward%20type%3A%20future-event%20credit%20or%20percentage%20discount%20on%20next%20corporate%20order.%0A-%20Keep%20process%20short%3A%20one%20referral%20form%2C%20one%20confirmation%2C%20one%20reward%20trigger.%0A%0A3.%20Private%20loyalty%0A-%20Reward%20structure%3A%20small%20next-booking%20discount%20or%20occasional%20seasonal%20menu%20perk.%0A-%20Additional%20appreciation%3A%20personal%20follow-up%20with%20ideas%20for%20the%20next%20occasion.%0A-%20Tone%3A%20warm%2C%20simple%2C%20non-pushy.%0A%0A4.%20Private%20referrals%0A-%20Reward%20can%20be%20optional%20or%20low-key.%0A-%20Use%20thank-you%20language%20first%2C%20reward%20second.%0A-%20Avoid%20overcomplicating%20the%20experience.%0A%0A5.%20Timing%20rules%0A-%20Thank-you%20within%2024-72%20hours%20after%20event.%0A-%20Feedback%20request%20shortly%20after%20thank-you.%0A-%20Referral%20ask%20only%20after%20positive%20satisfaction%20signal.%0A-%20Rebooking%20reminder%20linked%20to%20likely%20next%20event%20timing.%0A" download="programme-rules.txt">Open programme rules</a>
+        <a href="data:text/plain;charset=utf-8,STAFF%20GUIDE%0A%0APurpose%3A%0AUse%20this%20kit%20to%20make%20repeat%20booking%20and%20referral%20activity%20consistent%2C%20measurable%20and%20easy%20to%20manage.%0A%0AWho%20does%20what%3A%0A-%20Sales/admin%20owner%20updates%20the%20tracker%20after%20every%20event.%0A-%20Account/event%20owner%20sends%20follow-up%20messages.%0A-%20Manager%20reviews%20KPI%20dashboard%20monthly.%0A%0AMonthly%20review%20questions%3A%0A-%20Which%20clients%20are%20due%20for%20follow-up%3F%0A-%20Which%20referrals%20converted%20to%20bookings%3F%0A-%20Which%20clients%20are%20at%20risk%20of%20going%20inactive%3F%0A-%20Which%20reward%20types%20are%20being%20used%20most%3F%0A-%20Are%20corporate%20and%20private%20clients%20receiving%20the%20right%20type%20of%20follow-up%3F%0A%0AMinimum%20operating%20rule%3A%0AEvery%20completed%20event%20must%20end%20with%20a%20logged%20next%20action.%0A" download="staff-guide.txt">Open staff guide</a>
+      </div>
+      <div class="tool-grid">
+        <div class="tool-card">
+          <span class="badge">App 1</span>
+          <h3>Message builder</h3>
+          <label for="audience">Audience</label>
+          <select id="audience">
+            <option>Corporate</option>
+            <option>Private</option>
+          </select>
+          <label for="occasion">Occasion or trigger</label>
+          <input id="occasion" placeholder="e.g. post-event thank-you">
+          <label for="clientname">Client name</label>
+          <input id="clientname" placeholder="e.g. Emily or Jane">
+          <button onclick="buildMessage()">Generate draft</button>
+          <div id="messageOutput" class="output-box"></div>
+        </div>
+        <div class="tool-card">
+          <span class="badge">App 2</span>
+          <h3>Referral reward selector</h3>
+          <label for="segmentPick">Segment</label>
+          <select id="segmentPick">
+            <option>Corporate</option>
+            <option>Private</option>
+          </select>
+          <button onclick="suggestReward()">Suggest reward</button>
+          <div id="rewardOutput" class="output-box"></div>
+        </div>
+        <div class="tool-card">
+          <span class="badge">App 3</span>
+          <h3>Next-action planner</h3>
+          <label for="statusPick">Client status</label>
+          <select id="statusPick">
+            <option>Positive after event</option>
+            <option>No recent follow-up</option>
+            <option>Likely repeat occasion</option>
+            <option>Referral received</option>
+          </select>
+          <button onclick="planNextAction()">Plan action</button>
+          <div id="actionOutput" class="output-box"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section>
+    <div class="container">
+      <h2>What to build next</h2>
+      <div class="card">
+        <h3>Immediate next deliverables</h3>
+        <p class="muted">The website you are viewing acts as the concept and implementation blueprint. The next practical business files to create are an editable spreadsheet tracker, a referral form, and the ready-to-send email template pack.</p>
+        <div class="mini-actions"><a class="mini-btn primary" href="#" onclick="downloadWorkbook(); return false;">Download workbook</a><a class="mini-btn" href="data:text/plain;charset=utf-8,EMAIL%20TEMPLATE%20BANK%0A%0A1.%20Corporate%20thank-you%0ASubject%3A%20Thank%20you%20for%20choosing%20Flavours%0AHi%20%5BName%5D%2C%0AThank%20you%20for%20choosing%20Flavours%20Catering%20%2B%20Events%20for%20your%20recent%20%5Bevent%20type%5D.%20We%20really%20appreciate%20the%20opportunity%20to%20support%20your%20team%20and%20hope%20everything%20ran%20smoothly%20on%20the%20day.%20If%20there%20is%20any%20feedback%20you%20would%20like%20to%20share%2C%20we%20would%20love%20to%20hear%20it.%20We%20would%20also%20be%20happy%20to%20assist%20with%20any%20upcoming%20meetings%2C%20team%20events%20or%20seasonal%20functions.%0AWarm%20regards%2C%0A%5BSender%5D%0A%0A2.%20Corporate%20referral%20ask%0ASubject%3A%20A%20quick%20thank-you%0AHi%20%5BName%5D%2C%0AWe%20are%20so%20glad%20we%20could%20support%20your%20recent%20event.%20If%20you%20know%20another%20team%2C%20office%20or%20event%20organiser%20who%20may%20need%20reliable%20catering%2C%20we%20would%20truly%20appreciate%20an%20introduction.%20As%20a%20thank-you%2C%20approved%20referrals%20that%20turn%20into%20a%20booking%20can%20receive%20a%20credit%20towards%20a%20future%20Flavours%20order.%0ABest%2C%0A%5BSender%5D%0A%0A3.%20Private%20thank-you%0ASubject%3A%20Thank%20you%20for%20celebrating%20with%20Flavours%0AHi%20%5BName%5D%2C%0AThank%20you%20for%20letting%20us%20be%20part%20of%20your%20recent%20%5Bevent%20type%5D.%20We%20hope%20the%20occasion%20was%20memorable%20for%20you%20and%20your%20guests.%20If%20you%20are%20planning%20another%20celebration%20in%20the%20future%2C%20we%20would%20love%20to%20help%20again.%0AWarmly%2C%0A%5BSender%5D%0A%0A4.%20Private%20rebooking%20reminder%0ASubject%3A%20Planning%20another%20special%20occasion%3F%0AHi%20%5BName%5D%2C%0AWe%20hope%20you%20have%20been%20well%20since%20your%20last%20event%20with%20Flavours.%20If%20you%20have%20an%20upcoming%20birthday%2C%20anniversary%20or%20family%20gathering%2C%20we%20would%20love%20to%20help%20make%20it%20easy%20and%20delicious%20again.%20As%20a%20returning%20client%2C%20we%20would%20be%20happy%20to%20offer%20%5Binsert%20loyalty%20gesture%5D.%0AKind%20regards%2C%0A%5BSender%5D%0A%0A5.%20Reactivation%0ASubject%3A%20We%20would%20love%20to%20help%20with%20your%20next%20event%0AHi%20%5BName%5D%2C%0AIt%20has%20been%20a%20little%20while%20since%20your%20last%20event%20with%20Flavours%2C%20so%20we%20wanted%20to%20check%20in.%20If%20you%20have%20anything%20coming%20up%2C%20from%20team%20catering%20to%20a%20private%20celebration%2C%20we%20would%20be%20delighted%20to%20help.%20If%20useful%2C%20we%20can%20also%20send%20a%20few%20fresh%20menu%20ideas%20tailored%20to%20your%20occasion.%0ABest%20wishes%2C%0A%5BSender%5D%0A" download="email-template-bank.txt">Download templates</a><a class="mini-btn" href="data:text/plain;charset=utf-8,REFERRAL%20FORM%20FIELDS%0A-%20Referrer%20full%20name%0A-%20Referrer%20email%0A-%20Referrer%20phone%0A-%20Referrer%20segment%20%28Corporate/Private%29%0A-%20Referred%20contact%20name%0A-%20Referred%20company%20or%20event%20type%0A-%20Referred%20email%20or%20phone%0A-%20Short%20note%20about%20the%20event%20opportunity%0A-%20Consent%20confirmation%20checkbox%0A-%20Internal%20source%20code%20field%0A" download="referral-form-fields.txt">Download referral form</a></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+  <section id="workbook-note">
+    <div class="container">
+      <div class="card">
+        <span class="badge">Excel workbook</span>
+        <h3>Workbook download note</h3>
+        <p class="muted">The live HTML page can directly download the text-based pack items. The Excel workbook is delivered as a separate file alongside this page, because browser security often blocks local cross-file linking when the HTML is opened on its own.</p>
+      </div>
+    </div>
+  </section>
+
+<footer class="footer">
+  <div class="container">Designed as a thesis-ready business implementation concept for Flavours Catering + Events.</div>
+</footer>
+<script>
+(function(){
+  const btn=document.querySelector('[data-theme-toggle]');
+  const root=document.documentElement;
+  let mode=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  root.setAttribute('data-theme', mode);
+  function paint(){ btn.textContent = root.getAttribute('data-theme')==='dark' ? '☀︎' : '◐'; }
+  paint();
+  btn.addEventListener('click', ()=>{ mode = root.getAttribute('data-theme')==='dark'?'light':'dark'; root.setAttribute('data-theme', mode); paint(); });
+})();
+
+function buildMessage(){
+  const audience=document.getElementById('audience').value;
+  const occasion=document.getElementById('occasion').value || 'your recent event';
+  const client=document.getElementById('clientname').value || 'there';
+  let msg='';
+  if(audience==='Corporate'){
+    msg=`Hi ${client},
+
+Thank you for choosing Flavours Catering + Events for ${occasion}. We really appreciate the opportunity to support your team and hope everything went smoothly. If there is anything upcoming, we would be happy to help again.
+
+Warm regards,
+Flavours Catering + Events`;
+  } else {
+    msg=`Hi ${client},
+
+Thank you for letting Flavours be part of ${occasion}. We hope it was a lovely occasion for you and your guests. If you have another special event coming up, we would be delighted to help again.
+
+Warmly,
+Flavours Catering + Events`;
+  }
+  document.getElementById('messageOutput').textContent=msg;
+}
+function suggestReward(){
+  const seg=document.getElementById('segmentPick').value;
+  document.getElementById('rewardOutput').textContent = seg==='Corporate'
+    ? 'Recommended: future-event credit or annual-spend benefit. Keep it simple, professional, and easy to redeem.'
+    : 'Recommended: small next-booking discount, menu extra, or warm thank-you gesture. Keep it low-key and personal.';
+}
+function planNextAction(){
+  const s=document.getElementById('statusPick').value;
+  const map={
+    'Positive after event':'Send thank-you within 24–72 hours, then ask for feedback and referral if the response is positive.',
+    'No recent follow-up':'Check the tracker, assign an owner, and send a reactivation message with a useful reason to reconnect.',
+    'Likely repeat occasion':'Send a reminder with menu inspiration and a simple loyalty gesture.',
+    'Referral received':'Log the referral, confirm receipt, and track whether it becomes a quote and booking.'
+  };
+  document.getElementById('actionOutput').textContent=map[s];
+}
+
+
+function downloadWorkbook(){
+  const b64 = "UEsDBBQAAAAIAHkwj1xGx01IlQAAAM0AAAAQAAAAZG9jUHJvcHMvYXBwLnhtbE3PTQvCMAwG4L9SdreZih6kDkQ9ip68zy51hbYpbYT67+0EP255ecgboi6JIia2mEXxLuRtMzLHDUDWI/o+y8qhiqHke64x3YGMsRoPpB8eA8OibdeAhTEMOMzit7Dp1C5GZ3XPlkJ3sjpRJsPiWDQ6sScfq9wcChDneiU+ixNLOZcrBf+LU8sVU57mym/8ZAW/B7oXUEsDBBQAAAAIAHkwj1zD7Lb/7gAAACsCAAARAAAAZG9jUHJvcHMvY29yZS54bWzNksFOwzAMhl8F5d46bVkPUZcLiBNISEwCcYsSb4to2igxavf2pGHrhOABOMb+8/mz5E57oceAz2H0GMhivJldP0Sh/ZYdibwAiPqITsUyJYbU3I/BKUrPcACv9Ic6INSct+CQlFGkYAEWfiUy2RktdEBFYzjjjV7x/jP0GWY0YI8OB4pQlRUwuUz0p7nv4ApYYITBxe8CmpWYq39icwfYOTlHu6amaSqnJufSDhW8PT2+5HULO0RSg8b0K1pBJ49bdpn82tzd7x6YrHndFvy2qDY73greiA1/X1x/+F2F3Wjs3v5j44ug7ODXXcgvUEsDBBQAAAAIAHkwj1yZXJwjEAYAAJwnAAATAAAAeGwvdGhlbWUvdGhlbWUxLnhtbO1aW3PaOBR+76/QeGf2bQvGNoG2tBNzaXbbtJmE7U4fhRFYjWx5ZJGEf79HNhDLlg3tkk26mzwELOn7zkVH5+g4efPuLmLohoiU8nhg2S/b1ru3L97gVzIkEUEwGaev8MAKpUxetVppAMM4fckTEsPcgosIS3gUy9Zc4FsaLyPW6rTb3VaEaWyhGEdkYH1eLGhA0FRRWm9fILTlHzP4FctUjWWjARNXQSa5iLTy+WzF/NrePmXP6TodMoFuMBtYIH/Ob6fkTlqI4VTCxMBqZz9Wa8fR0kiAgsl9lAW6Sfaj0xUIMg07Op1YznZ89sTtn4zK2nQ0bRrg4/F4OLbL0otwHATgUbuewp30bL+kQQm0o2nQZNj22q6RpqqNU0/T933f65tonAqNW0/Ta3fd046Jxq3QeA2+8U+Hw66JxqvQdOtpJif9rmuk6RZoQkbj63oSFbXlQNMgAFhwdtbM0gOWXin6dZQa2R273UFc8FjuOYkR/sbFBNZp0hmWNEZynZAFDgA3xNFMUHyvQbaK4MKS0lyQ1s8ptVAaCJrIgfVHgiHF3K/99Ze7yaQzep19Os5rlH9pqwGn7bubz5P8c+jkn6eT101CznC8LAnx+yNbYYcnbjsTcjocZ0J8z/b2kaUlMs/v+QrrTjxnH1aWsF3Pz+SejHIju932WH32T0duI9epwLMi15RGJEWfyC265BE4tUkNMhM/CJ2GmGpQHAKkCTGWoYb4tMasEeATfbe+CMjfjYj3q2+aPVehWEnahPgQRhrinHPmc9Fs+welRtH2Vbzco5dYFQGXGN80qjUsxdZ4lcDxrZw8HRMSzZQLBkGGlyQmEqk5fk1IE/4rpdr+nNNA8JQvJPpKkY9psyOndCbN6DMawUavG3WHaNI8ev4F+Zw1ChyRGx0CZxuzRiGEabvwHq8kjpqtwhErQj5iGTYacrUWgbZxqYRgWhLG0XhO0rQR/FmsNZM+YMjszZF1ztaRDhGSXjdCPmLOi5ARvx6GOEqa7aJxWAT9nl7DScHogstm/bh+htUzbCyO90fUF0rkDyanP+kyNAejmlkJvYRWap+qhzQ+qB4yCgXxuR4+5Xp4CjeWxrxQroJ7Af/R2jfCq/iCwDl/Ln3Ppe+59D2h0rc3I31nwdOLW95GblvE+64x2tc0LihjV3LNyMdUr5Mp2DmfwOz9aD6e8e362SSEr5pZLSMWkEuBs0EkuPyLyvAqxAnoZFslCctU02U3ihKeQhtu6VP1SpXX5a+5KLg8W+Tpr6F0PizP+Txf57TNCzNDt3JL6raUvrUmOEr0scxwTh7LDDtnPJIdtnegHTX79l125COlMFOXQ7gaQr4Dbbqd3Do4npiRuQrTUpBvw/npxXga4jnZBLl9mFdt59jR0fvnwVGwo+88lh3HiPKiIe6hhpjPw0OHeXtfmGeVxlA0FG1srCQsRrdguNfxLBTgZGAtoAeDr1EC8lJVYDFbxgMrkKJ8TIxF6HDnl1xf49GS49umZbVuryl3GW0iUjnCaZgTZ6vK3mWxwVUdz1Vb8rC+aj20FU7P/lmtyJ8MEU4WCxJIY5QXpkqi8xlTvucrScRVOL9FM7YSlxi84+bHcU5TuBJ2tg8CMrm7Oal6ZTFnpvLfLQwJLFuIWRLiTV3t1eebnK56Inb6l3fBYPL9cMlHD+U751/0XUOufvbd4/pukztITJx5xREBdEUCI5UcBhYXMuRQ7pKQBhMBzZTJRPACgmSmHICY+gu98gy5KRXOrT45f0Usg4ZOXtIlEhSKsAwFIRdy4+/vk2p3jNf6LIFthFQyZNUXykOJwT0zckPYVCXzrtomC4Xb4lTNuxq+JmBLw3punS0n/9te1D20Fz1G86OZ4B6zh3OberjCRaz/WNYe+TLfOXDbOt4DXuYTLEOkfsF9ioqAEativrqvT/klnDu0e/GBIJv81tuk9t3gDHzUq1qlZCsRP0sHfB+SBmOMW/Q0X48UYq2msa3G2jEMeYBY8wyhZjjfh0WaGjPVi6w5jQpvQdVA5T/b1A1o9g00HJEFXjGZtjaj5E4KPNz+7w2wwsSO4e2LvwFQSwMEFAAAAAgAeTCPXOomVUqaAwAACwwAABgAAAB4bC93b3Jrc2hlZXRzL3NoZWV0MS54bWy1llFv2zgMgP+K4Ndb5zhp4jRIAqzddi2K4oJ2d3scVJu2hciWj5KT5d+Pkh0nGxxtL31oI8ki+YkiKS73Cre6ADDseykrvQoKY+pFGOqkgJLr96qGir5kCktuaIp5qGsEnjqhUobj0WgWllxUwXrp1ja4XqrGSFHBBpluypLj4Rak2q+CKDguPIu8MHYhXC9rnsMLmH/rDdIs7LWkooRKC1UxhGwV3I4X91FsBdyO/wTs9dmY2aO8KrW1k4d0FYwsEUhIjFXB6WcHdyDlKvhgOf53Sj84grDXcj4+av/sDk+HeeUa7pT8KlJTrIJ5wFLIeCPNs9rfQ3egqdWXKKndf7Zv904CljTaqLKTJYBSVO0v/975IWzFnM2P3PD1EtWe4SoY00kSO7gdE7iTIlOisj5+MUhfBcmZ9WfJd6pBze6kgMqwv0neFOxRGPa1c84yNGTIbg8T+qMNvZVJb2XirIwvWHkoawl0M4Y7xx7dzihG6KIMfXD+rlJ7bYDIJZ2xoju2MnQPqLRmicJaITfgNtYodnacOG7tgZz2kFMHObkA+WKd+LMeJ3bnF9s0hKXBAzDrAWZO0/UFTf/sAHcUREMMreT0EnqbIe/Y4+ZBv3P+qfhO5M7dHrK4J4u9ZG1wfHvi2gAO4cVevCfK9e6iWEpRapPCQfI20QzyZPur4p9A5z3o3AtqYzajuvHtuZGgh0jnXtIvKPIc8MoSpi5OrTaGVht7PTANuQ1JD+lNT3rjJX3uAn0Q8sYLeRRlghJq23oyURVFj/4zb0ajHpKGPsovQJlLaTZI2clewvxEJV7Sq4CiNlQHK18hiU6VJGpLyexSqBuOFIQu0n0Kr08Kr53C+FJs92WFSopCYQ6DZ22VzC8ouadS7qM51aBo6qXZdGXNyzL1sjypFOx5rorfQJ3qUjTzQj3CgaLKZcYgz8zLs1HaXMHOJn+mJKXTVVP7sE5FKYp/5ytb9ZhRSg5yxV4uV+/ZX8wMx3gLFZ49rSVg7toB+xY1lWnfv361azkmi/uJfZp/XY8mi0/R4BdqUsbuMT8ZWC+LQw1IyNvzcdtxLfBPei6VZSKBjyppbMVqmy4E6Z4EXYhaB515uj1cCOp+8CF1TcXbmovPzI3f3tz8zNzk7c3dnJm7fntztgT39lwfGZ4Hjm2TnzjmotJMQkYRO3ofU/XAtvNsJ0bVrj98VYa6TTcsqFsHtBvoe6aUOU6sgb7/X/8AUEsDBBQAAAAIAHkwj1yPXEIH0QAAAHMDAAAjAAAAeGwvd29ya3NoZWV0cy9fcmVscy9zaGVldDEueG1sLnJlbHO907sKwjAUgOFXqXE33gexgqiDgwil4CiH9qQNzY2TeHt74yAoCHbqmOTw5yOQZYYKgrTG19L55K6V8SmrQ3ALzn1RowY/sA5NPBGWNIS4pIo7KBqokI+HwzmnzwZbLT+bSf5w2KZohZAFbm1x0WjCjzCvY4mUNA1LcqAKQ8r6xyvSVeKttx69dw+2jBfu7gHJgGLJvkwZ7csR453KNkrG6fMBfIT854075p0sNULZ2zm7KPT/fZOOfRkKJALVgjbtmJajdnGmzavNXjT+9cdWT1BLAwQUAAAACAB5MI9cNuUm0soEAACTFAAAGAAAAHhsL3dvcmtzaGVldHMvc2hlZXQyLnhtbJ2Y23baOBSGX8XL98QHAjksYM2EpE3SJqGhyVyyBJZBE1lyZRlCn34kHwhj9iZe7UWK7f1pb+m3fx0GG6neshWl2nlPuMiG7krr9NLzssWKJiQ7kSkV5kksVUK0uVRLL0sVJVEBJdwLfb/vJYQJdzQo7k3UaCBzzZmgE+VkeZIQtb2iXG6GbuDWN57ZcqXtDW80SMmSTql+SSfKXHm7ViKWUJExKRxF46H7d3D52rXxRcAro5ts77djezKX8s1e3EVD13dty4I622nKWZHL0TL9TmM9ppyb9kLXIQvN1nRiwobuXGotE/vcVKmJNrdiJX9TUeSknJpYU0t6EFw2UjVqu/irqtfddccWtf+7rvxLMa5mnOYko2PJ/2GRXg3dc9eJaExyrp/l5pZWY9Wz7S0kz4q/zqaMDU5dZ5FnppoKNhUkTJT/k/dqjNsAYQWEbYFuBXTbAqcVcNoW6FVAry3Qr4B+Awgx4KwCztpmOK+A82YGHwEuKuCimeECE86vlfPb5gh2YjfVDrsYUssdNPVGxyqoBQ9aKx7UkgdNzcMAQ2rRgwPVzzCklj1o6o4XVgsfHCjfx5Ba+qCpvX0CI7X4wYH6GBLW6odN9fEPt1Y/bP+t7z72Qn2vtJXCk66JJqOBkhtH2XjTnv1hjc2YEBPW2KdamfvMEHq04IwKPWPRwNOmIXvTW1TQ1SeQIAkFsDGGZXRppgQNINdoJim0MWgs1Q3GmdmPcQD4ggHpSgoow1e8ssTMJduZVDO6tqOxVDJPgRZu0RoLTG9TKO8dRsVMZXpmp0omlrPITHQAfY/RnHwOf2sFrwnPIfo7RhMhcsJnmVmSRDOaaZbA6R+wBurMsaK/cioW29mcCOi9fcRaUHEySxWTiuktwD2hLy7RLItJsYKY2cVFngH4BE1LY6qU7TuG/jiO0mg2hwp+RpWSW8L1Fk84xUhB3/Ws6inyav5swyLv1gvGyo2gCgBe0WRS00bPPON6O+sLd9YXIi2MfT+AXA+Lv3knScqpM5YK+s7HaB4TLxU8HtcYdG/XvtOE6RVkexj1r6H+omWdJ8ahIAfEWP/UL/9Bg/L1DwflFuOe4pgtqMNzsYB6eIdxoR/2On7YCXzI9o5Q/Y5/2gH79q2k7BZoPQrMjmjgrfcNbf/xea/5+AHL2YdrfMTib80+ATIlLH4iM2Z3LpAToaNuzBeyn8P4D49B89feBNkLBk2N+Tt6RcRbZytzyFw+lbAL2Qqaj/CmS5S2Avf4fw7S3TlIFxsCxEGw+JuE8a1zZdqHVBijaRRbI/bxZ5luMIxa7DMDweCdgYSQgWDUFVN6FZGtUy4qIQ/5DIX8A2NK/zjvBFCR90co8/J1O13oi/7W3TOIi17TPo4+fcAyBh2owEcs/IFGLIfUekJfqiP2gTFPqZ3bCbSw/nHIfFgI1t4z1bkSZk0HWQgOVQtBR5nXVUTgsuHncSUv4JngBf2c7FId9BG426WPeHsbMntK9kDUkonM4TQ2jH9yZrbKqjwdKi+0TIs9Xnk8VfxcUWJ6aAPM81iaRU91YbZ9msw5nRClM2chc6HL/d7ubnkmeKnanArKYjq+lovc7tDKY0FFObF6ZyuWZqbSSxYNXXUXlQdjH8nNxe4ccvQfUEsDBBQAAAAIAHkwj1wsZzSJsAEAAOcEAAAUAAAAeGwvdGFibGVzL3RhYmxlMS54bWyNlN1u3CAQhV/F8gPUP0mTNtpdKVqpUi7Si6bqLZq1x2sUGAiMs/Hbl3XWJBvhKJfAN+cMHGDFsFOYyXadV3lGoHGdb5VE4nvwjC7PWumtgvF3Yslht85vq5t/F3nWI7To/pjD1gzEk9qLVuTXec9sb4rCNz1q8N+MRQornXEaOAzdvvDWhWrfI7JWRV2WV4UGSflmBQObX1IFt/dmxWY1tb01atDks+bVsq7zs4XzXTVT60K2H8onqv5AHQcp7mLmPO51AFPMZdQyxNAsi32fwXAuUqWIq5mwvaGkxvWbmbZAozBO4PNxC3tnBpsq+RFtJ45Hm1T+OWOddJ7FzphHSXvRAifxqpx5BV/BqyT+DGpI8zEhIBpACR+uUSvQs9RLFjGsWb1z+DQgNaPYASXvQRXDc50W1knjJI9JMqbngaXvQtDSkPAMPPhkQQwz3GR07riHZfj6HMZW7NJtxDSVGUHx+JlojJTwhcWp46X86zJFL+VZxzzNgcLfkEJihGQYpw6L98/4VPHAo8I76swJ/hsn77GVgw4qvjeH8NM8sJMW/fTGj1OvOnG2fHPY/AdQSwMEFAAAAAgAeTCPXIvuCz+LAAAA7QAAACMAAAB4bC93b3Jrc2hlZXRzL19yZWxzL3NoZWV0Mi54bWwucmVsc43PPQqDQBAF4KsscwBHU6QIq1Ua2+AFJuu4SvaP3RHM7SMkhYEUKd978MHTN3YkSwxlXlJRm3ehtDCLpAtiMTN7KlVMHPZlitmT7DFbTGQeZBlPdX3GfDSg00dTDc/E/4hxmhbD12hWz0F+wCh0dwxqoGxZWsDNvavP0lS7CKofW8j92AB2Gr/edS9QSwMEFAAAAAgAeTCPXHC4ATToAwAAEg8AABgAAAB4bC93b3Jrc2hlZXRzL3NoZWV0My54bWydl21v2zYQx78KobdDq9SJkzSwDaR20gToNsPBtpcBTZ0kwhSpklRc79PvRMlKsvJsb28SkebveLz78+EmW2M3rgTw7EeltJsmpff1TZo6UULF3UdTg8ZfcmMr7rFpi9TVFngWoEqlo7Ozy7TiUiezSehb2tnENF5JDUvLXFNV3O6+gDLbafIp2XesZFH6tiOdTWpewBP4P+qlxVY6WMlkBdpJo5mFfJrcfrp5HLfjw4A/JWzdm2/WrmRtzKZtPGbT5CxpLWtgu6dayTAX86b+Brmfg1Job5QwLrx8gSUOmyZr472p2t/RS889duXW/A06zAkKcCz6Uv80uDPSG22X+L33NxmW0zr19nvv+X2IK8ZpzR3MjfpLZr6cJtcJyyDnjfIrs32APlZh8cIoF/6ybTd2hMsQjUNvehg9qKTu/vMffYxPAUY9MDoVOO+B81OBix64OBUY98D4VOCyBy5PBa564OpU4LoHrk8FPvfA5yCHLn8h+Qvu+WxizZbZdjRaaz9aBWG2pW530JO32C+R8DMHBe4HP0k9mmm7UtEjXyjEW1kUYJ9RzgVEwPkxUBidyVb2EXhBwVwQxB1FiJJrDSqC3JMeQlUr3KTPmlexpX2lQJPnuDC/q2PUA0ltNdgI8EhmqxECnHuuAGMp3pMp5nxI/GhI/IgwNTe2NhbXGks9BS2N8x/gJS6YOT0VRhU8ZCyg7BemDRNtJ57wMUsLytIT6Ix5zOvmw840jGMrB8jWXGzwOP/egIuZu6PM3eEVE9XH0aC9OhFTCYX/ZnRUH9T4WyFMgwEjdUKBK3C10Q4wKALwGskOSOV8kMr5/5EKBd1mL0ZwsYsJhWJQXrK99YakxrRBwUEbeEeCtVwxqV8kXrfEkUHZIAVxNDSvM3MXc/srZeG+8Y2FblMxYQFPxphEyDAfkwgFrvb+umZdSe8PauRi0MgFlTorXwiFkMjBw4Sifj5M6r1qHObb5eRFsaBMvj9VYnqhSFIvR8J0+PigYOr4IL0LASKVQWG/4+s8FUr+e/u9U8R4UMT4vyuCQlbQvrWlLmKCoKBvcgNqx/Kwj5gRgofXPa9ra7go49YWlLX+FME3VgYWX2G+ZMrsuPI7VuDtglPE9EFZI/VxJGjoQR+JwZeYUMhFVFwplkkXzoYUH3gNq8HGzqUH0vXD4qFTWAP3LJrHTkDpm2dqW6T9ym0htWMKyx4ssD5eoWnbFSddA+ur8O7tqqPwWWKtCLYdgL/nxvh9Ax/Dnq8VFl/WOxaW372Ch96uJL2xpxSl+KqTAhZGNO0buatKLahwrbhS1g49vZFYFtrHrKvLXifHxlAGz/4BUEsDBBQAAAAIAHkwj1xi3vnRLAEAAJwCAAAUAAAAeGwvdGFibGVzL3RhYmxlMi54bWx1kttOwzAMhl+lygOQbbDBpnUSmoS0C7jYkLicQuq2EUlcxa7K3p7s0MKmcGn7+/P7kCWrTwuZKXIxEZlXDnLxgeGrtNhtWwskssJQY9XhLVULUObiebzYTEVWgyogbLFbY+s5F2ORfTvrKRc1c7OQknQNTtEdNuBjpcTgFMcwVJKaENVUA7CzcjIazaRTxovVUrWML8YyhL9mcrU8Nb5G2zpPmT5bzsVV/jTWuB+LoHLg+UZ7PToHU1UQ9sSqghR5f0tq9IVhgz5FP/S00v8h0x7RtfIebIqZDabg4ikY9scwRT72JJZlbI4PTRJ7GrDOQ0gR82FrrdZAtHcQJ9ZHVP7d/EW544OFjS/xonofkq9QmNbFBVMdfw12u/hMA3S6yzF1fmfIjn4dVj9QSwMEFAAAAAgAeTCPXNEdjVKLAAAA7QAAACMAAAB4bC93b3Jrc2hlZXRzL19yZWxzL3NoZWV0My54bWwucmVsc43PPQqDQBAF4KsscwDHWKQIq1Ua2+AFJuu4SvaP3RHM7SMkhYEUKd978MHTN3YkSwxlXlJRm3ehtDCLpAtiMTN7KlVMHPZlitmT7DFbTGQeZBmbuj5jPhrQ6aOphmfif8Q4TYvhazSr5yA/YBS6OwY1ULYsLeDm3tVnaapdBNWPLeR+PAF2Gr/edS9QSwMEFAAAAAgAeTCPXOH3nxmFAwAAQQ0AABgAAAB4bC93b3Jrc2hlZXRzL3NoZWV0NC54bWyVl21zmzgQx7+Khrm3LQ/OUzO2ZxonbZOLe5747jp9xSiwNpoIiSzCrvvpuwLs5BrpQt7YSOxvWVZ/LavxVuNDXQAY9qOUqp4EhTHVeRjWWQElr9/rChTdWWksuaEhrsO6QuB5C5UyTKLoJCy5UMF03M4tcDrWjZFCwQJZ3ZQlx90FSL2dBHGwn7gT68LYiXA6rvgalmD+qRZIo/DgJRclqFpoxRBWk+BjfD4fWfvW4F8B2/rZNbNvcq/1gx1c55MgCqxnBWy3rKRon8WMrm5hZWYgJflLAsYzIzawILNJcK+N0aW9T1EabmhqhfonqPaZIIFsKZbqhXHnpHdqX/Gxjzc4vI4N6vn1PvJPbV4pT/e8hpmW30RuiklwFrAcVryR5k5vv0Cfq2PrL9Oybn/ZtrONyThraoqmhymCUqjun//oczwESHogGQqMemA0FDjqgaOhwHEPHA8FTnrgZChw2gOnQ4GzHjgbCnzogQ9DgTjar1w0GDks9uDVjvfLHQ9e73i/4HG74mGnxVbIl9zw6Rj1lqG1J3/2wu4GUq5QthosDdK8IMJMaYMAIpepyMehIVd2Osx67OL/McBU8RIc4OxVsIY1FRXjYC9fYfNUUtnzPfnqVTrTJZWOXaoxhY07hE8+JzlVoxQhA6ozroR99oG2jjW1g/jiIzKtNoCGAjY6fWy0cb3t9SDaVmOh1g7+xsf3SLrhsnE9+E9/mrcc8zR3UrevULQ8AKUzs3MfqigzvyU2JPkf9kBy2AOJx8NdFMUu8fvsb+zHbFkKU7iU76NmGiuN3LmMlz7ob12yW3Dq3Id8pU+wXq1EBkxjDuiSt49NouTkXXT0Ljp2adtH/UWtiUvZ3gi1S8lvsr55af0kTZ+nP+IoYhlpTLj2/O2bApi7A/iP8kYH5Y38yktcyvPZX5VC7tgF+XclfObDFig2HuH5kCVHXrDPCM6lvfJhFwJNkfMdA/XYCNy5xOdj9+KLI5f4fNQ37dSez/z777WiE9/bzG86c9tpb6anEcW7ea4/b05LLiWrAB9c8ntbCPOX5k/6C591Arann3NcC1UzSV0y9ePvT6mbw66X7QbUjrfNRddMt5cFfWMBrQHdX2kqsv2A+g3D7yX16mhqlulGma7ROMx2J5hzHHKG6SrVpc4a2w10hxgEyW2HXxeiqinSc0GnCLzOuzb+6eE0OJyapr8AUEsDBBQAAAAIAHkwj1w+jpx6VgEAAGwDAAAUAAAAeGwvdGFibGVzL3RhYmxlMy54bWx1kt1uwjAMhV+lygOsFDa2IYo0IU2aNHYBu49C49JoSdwlLoy3X+haxk+4jP0d28fxlMRaQ6JkzkYsscJAzpZQgnNCv+OGJVL5Wov9x3XGQZmzl2yyCMIKhAS3xN0cG0s5y1jyY7T1OauI6kma+qICI/wd1mBDpkRnBIWn26S+dkHtKwAyOh0OBuPUCGXZbCoawlelCdxps3Q2bYeeo26M9UnRtRyxs0TrKes9uW5yruRFgZYbnnPg+OEZI0dXpIeNAUsx+P4CllwHqzdrP1zhBZpa2D1Hx2F7o8m4V0lBwB0UoLYQdfnYk54ENT6GPPVIgXYLjsIMhPy7QYpO/BzF14hfym5igmzQKzqIb4VuorWzk8/bCSe5vMENL7iwOAATX0F2/D8bLLUrSE+vqVOsaK/hzZbYwZ/H4AKkakxo6SvchYNfkVM1+PbUDqG/Osfo4L/D7BdQSwMEFAAAAAgAeTCPXOdMD3aMAAAA7QAAACMAAAB4bC93b3Jrc2hlZXRzL19yZWxzL3NoZWV0NC54bWwucmVsc43PTQrCMBAF4KuEOUCnKriQtis33ZZeYEynSTF/JCPU21vQRQUXLt978MFrBnYkSwzFLqmo1btQWrAi6YJYtGVPpYqJw7bMMXuSLWaDifSdDOOxrs+Y9wZ0zd5U4zPxP2Kc50XzNeqH5yA/YBS6OQY1UjYsLeDq3tVnOVWbCKqfWsj9dADsGvx6170AUEsDBBQAAAAIAHkwj1xU+a6YdQMAAGoJAAAYAAAAeGwvd29ya3NoZWV0cy9zaGVldDUueG1sjVZNk9M4EP0rXb4CcSYzAyyVpAqySy2HrZoCFo5UR27bqsiStyXH5N9vS/aEhMp4ckn09Vrd7+lJXvaOd74mCvCzMdavsjqE9l2ee1VTg37mWrIyUzpuMEiXq9y3TFgkUGPyxXz+Om9Q22y9TGMPvF66Lhht6YHBd02DfPhAxvWr7CZ7HPisqzrEgXy9bLGiLxT+bR9YevkxSqEbsl47C0zlKnt/825zH9enBd809f6kDbGSrXO72PlUrLJ5TIgMqRAjoPztaUPGxECSxn9jzOy4ZQSeth+jf0y1Sy1b9LRx5rsuQr3K3mZQUImdCZ9d/zeN9aQElTM+/UI/rL2RxarzwTUjWDJotB3+8efIwwlg8RRgMQIWvwFuFvMnELcj4jZVOqSW6voTA66X7HrguFrCxUYiZ5W9zkDK0TbK+CWwzGrBhXWgpjUY6IfFhpZ5kJBxIlcj/MM0HLtCk1WXkJtpZEPeyzk5B+aS/bEEoSZKcHek7ijKsbZF2uKPJ7bYOG4dS3EQarS7VwfXXarwyiCXSpyGfo27guwKYjdQtXNe2wo+Gty7jj1sJCrHkRfw155s8GmdrGcxiJIBoDg8g+8kA2jMAbAVsyo91ETgWsktdFaHAwQnXkz9IUQgbABtIUbqTAHG7Um6ByiJii2q3WyC+tvnqb+9knqxJTGjAfS7S+xfGecS+9PQT2WifmelJLRO6GJwZamV0CYtrtBqL2N97cRQB7DCi2RrNG4NgRq1eQk9jQwG7s4VQAvaBnZFl+6kGbyXOaG5OBbt48kLoJzdk+ii0CZldZQCFFOhg+jWIxdeBsoudEy/zofjgnhKprvnZbqb5OiB9f5Zf1wV4pI+08BzdxgKIVqh87AlaFHYcuWZF5Tc/Vs5ColpcUQtT9lgAqUwvSo9evBtFMc8OikZIEWpOvLBvxwcQaemEOPUZFrASl49UTQFHbSYIv/+efLvryKfKT5zsXgmueFF80sqXBXrkgrTwNElNabbYXDJVnOoCzxEsqycVfbywEfTlNhosUCFcVlMWLkmidae2ETkK8RFQoUY4YxbMUg85kxCrU1wI49HOMfWYrB0mYlXJRcE38jN9+uEQiU6PiVNfvIQxq+Qf5Arbb2crlKqn8/eCBk8qDR0gmvTy7p1QRRMzVo+hojjApkvnQuPnfjcHj+v1v8DUEsDBBQAAAAIAHkwj1wav7V1QAMAABsRAAANAAAAeGwvc3R5bGVzLnhtbN1YYW/aMBD9K1F+wBJIm5EJkLpUlSZtU6X1w74a4gRLjp05Tgf99fPZIUDxMaioNC2oiu3ze/fufLGtTlu94fTHilIdrGsu2lm40rr5FEXtckVr0n6QDRXGUkpVE226qoraRlFStACqeTSO4zSqCRPhfCq6+qHWbbCUndCzMA6j+bSUYjfyMXQDZiqpafBM+CzMCWcLxexcUjO+ccNjGFhKLlWgjRQ6C0cw0r4488j1QGXPUzMhFQxGzsMJP4ue44AwPQ/rJKlqYeKLU/sc0MSXSzigfLDPcagXKoPHR9O5TstExekbeeP4LfLQiP9CaV+toWacD4WUhG5gPm2I1lSJB9OxGDt4ZAr69tOmMZVUKbIZjW/DswGt5KwAl1V+oHyUZqlNcrQHHUjtyyhfSFVQNWgfh9uh+ZTTUhu4YtUK3lo2kCmptaxNo2CkkoLYwLaIfWRgP99ZqFf28zvI6v3N/Si/s9pgau/jTISda+WcCTAzt7rPRLjJe4H1DZOvJeX8B5D8LIekjQzVugzcDvOlgM0lgMLYNk2m+6ajcR1wtM/muPdp4zfxBg17lvpzZ0IQtv+rk5o+Klqyte2vy0EAxj56V/bxu7InO/bxPruJiTQN39xxVomauoU72+F8Sra4YCUVezHeYDtYmgHqtvZ1iYu6QUK+nqhnqjRbXiDp9t+ThC3ddQojxQO+AvuJdL4v+9UXy+yXYfBbkeaJrnV/KNpli/oNam8XPNgDh9EADtlZ+B0uZnznLlh0jGsm+t6KFQUVR1uhoddkYW5+B/xmfkFL0nH9NBhn4a79jRasq7Nh1iOkoJ+1a3+Fs8Pdpuzeb3wxUdA1LfK+aw6D3H8BeG3ZXYaOLRjG2fyW7Z3I5wdTgGEcCvPzP8UzQeNxNkzbxGuZoJgJinEonyW3P8yPH5OZxx9pliWJu8/7MprnXgU5lrc0hT8/G6YNEJgf8HRZrvHVxivkdB1ga3qqQrBI8UrEIsVzDRZ/3gCRZf7VxvwAAlsFrHbAv98P1JQfkySwqpg27AvGLVmGWaAW/TWapkh2Uvj51wf7SpIky/wWsPkVJAlmga8Rt2AKQANmSRJ7Dr46j6LtORXt/h0y/wNQSwMEFAAAAAgAeTCPXJeKuxzAAAAAEwIAAAsAAABfcmVscy8ucmVsc52SuW7DMAxAf8XQnjAH0CGIM2XxFgT5AVaiD9gSBYpFnb+v2qVxkAsZeT08EtweaUDtOKS2i6kY/RBSaVrVuAFItiWPac6RQq7ULB41h9JARNtjQ7BaLD5ALhlmt71kFqdzpFeIXNedpT3bL09Bb4CvOkxxQmlISzMO8M3SfzL38ww1ReVKI5VbGnjT5f524EnRoSJYFppFydOiHaV/Hcf2kNPpr2MitHpb6PlxaFQKjtxjJYxxYrT+NYLJD+x+AFBLAwQUAAAACAB5MI9cvQrJp34BAABqBAAADwAAAHhsL3dvcmtib29rLnhtbLWT227CMAyGX6XKA6yMwaQhys3QDtJOAsQuUWhdapHElZPCtqef26pap0loN1wl/h05n3/Z0yPxfku0jz6scT5RRQjlJI59WoDV/oJKcJLJia0OEvIu9iWDznwBEKyJh4PBdWw1OjWbdrXeOO4HFCANSE7EWlgjHP1Pvg6jA3rcosHwmajmbkBFFh1a/IIsUQMV+YKOD8T4RS5os0yZjEnUZZtYAwdM/8jLGnKlt75Rgt4utIAk6nogBXNkH5oXTX0tjAeQx21UBbpDE4DnOsA9U1Wi29VlpIu410bjQ3e2Jk74PzZSnmMKc0orCy60PjKYGtD5AkuvIqctJOr1AHyQz+qW5I/HrG0vCFfPLJ6gJPgxawjPR3NrUB5snrUXb3pIwxNIw/Mivcsk5YaOm0VlwPeYrk4wXZ2XaQE5MGvTxxmdwBmdF2cFthT5lzvjEzjjZsy72c4gRwfZi5TyosuepW8c1UczjMPR+PJG9qky5la0V/dEOutWpVvz2TdQSwMEFAAAAAgAeTCPXIU5SJ3HAAAAPAQAABoAAAB4bC9fcmVscy93b3JrYm9vay54bWwucmVsc8WUTQ6CMBBGr0J6AEYBMTHAyg1b4wWaOlDCT5vOGPH2oiygiQs3hlXzTdP3vc00u2AnuTED6cZSMPbdQLnQzPYEQEpjLyk0FofppjKulzxFV4OVqpU1QrTbpeDWDFFka2ZwfVr8hWiqqlF4Nure48BfwPAwriWNyCK4Slcj5wLGbhkTfI59OJFFUN5y4crbXsDWQpEnFG0vFHtC8fZCiSeUbC908IQOfxQifnZIi82cvfr0j/U8vcWl/RPnob9Gx7cDeJ9F8QJQSwMEFAAAAAgAeTCPXNKzispDAQAAbwcAABMAAABbQ29udGVudF9UeXBlc10ueG1szZXLbsIwEEV/JcoWEVP6WFTApu22ZdEfMMmEWPglz0DD33eSAFIrGjUkEmxixZ65x743kWefew8YlUZbnMcFkX8WAtMCjMTEebC8krtgJPFrWAsv041cg5hOJk8idZbA0pgqjXgxe4VcbjVFbyVPo3J2HgfQGEcvTWHFmsfSe61SSbwudjb7RRkfCAl31jVYKI8jLojFWUK18jfg0PexgxBUBtFSBnqXhqtEqQXSXgMm7RJn9ujyXKWQuXRruCVBH0BmWACQ0UkjOmonEzsMzfOuN7+WaQNy5TI4j5xYgO64YyRV99izEARS7Uc8EVm69/mgSjuD7J9stvfLhU2dB4p66O/xz4xP+h33Mb3SPkiu+JtshqG9qEU7+nB/Az4MncUlPjzcgA9DZ3GJD49X/D9Xzm2GvgKqMTFS2SNf1Pfs4htQSwECFAMUAAAACAB5MI9cRsdNSJUAAADNAAAAEAAAAAAAAAAAAAAAgAEAAAAAZG9jUHJvcHMvYXBwLnhtbFBLAQIUAxQAAAAIAHkwj1zD7Lb/7gAAACsCAAARAAAAAAAAAAAAAACAAcMAAABkb2NQcm9wcy9jb3JlLnhtbFBLAQIUAxQAAAAIAHkwj1yZXJwjEAYAAJwnAAATAAAAAAAAAAAAAACAAeABAAB4bC90aGVtZS90aGVtZTEueG1sUEsBAhQDFAAAAAgAeTCPXOomVUqaAwAACwwAABgAAAAAAAAAAAAAAICBIQgAAHhsL3dvcmtzaGVldHMvc2hlZXQxLnhtbFBLAQIUAxQAAAAIAHkwj1yPXEIH0QAAAHMDAAAjAAAAAAAAAAAAAACAAfELAAB4bC93b3Jrc2hlZXRzL19yZWxzL3NoZWV0MS54bWwucmVsc1BLAQIUAxQAAAAIAHkwj1w25SbSygQAAJMUAAAYAAAAAAAAAAAAAACAgQMNAAB4bC93b3Jrc2hlZXRzL3NoZWV0Mi54bWxQSwECFAMUAAAACAB5MI9cLGc0ibABAADnBAAAFAAAAAAAAAAAAAAAgAEDEgAAeGwvdGFibGVzL3RhYmxlMS54bWxQSwECFAMUAAAACAB5MI9ci+4LP4sAAADtAAAAIwAAAAAAAAAAAAAAgAHlEwAAeGwvd29ya3NoZWV0cy9fcmVscy9zaGVldDIueG1sLnJlbHNQSwECFAMUAAAACAB5MI9ccLgBNOgDAAASDwAAGAAAAAAAAAAAAAAAgIGxFAAAeGwvd29ya3NoZWV0cy9zaGVldDMueG1sUEsBAhQDFAAAAAgAeTCPXGLe+dEsAQAAnAIAABQAAAAAAAAAAAAAAIABzxgAAHhsL3RhYmxlcy90YWJsZTIueG1sUEsBAhQDFAAAAAgAeTCPXNEdjVKLAAAA7QAAACMAAAAAAAAAAAAAAIABLRoAAHhsL3dvcmtzaGVldHMvX3JlbHMvc2hlZXQzLnhtbC5yZWxzUEsBAhQDFAAAAAgAeTCPXOH3nxmFAwAAQQ0AABgAAAAAAAAAAAAAAICB+RoAAHhsL3dvcmtzaGVldHMvc2hlZXQ0LnhtbFBLAQIUAxQAAAAIAHkwj1w+jpx6VgEAAGwDAAAUAAAAAAAAAAAAAACAAbQeAAB4bC90YWJsZXMvdGFibGUzLnhtbFBLAQIUAxQAAAAIAHkwj1znTA92jAAAAO0AAAAjAAAAAAAAAAAAAACAATwgAAB4bC93b3Jrc2hlZXRzL19yZWxzL3NoZWV0NC54bWwucmVsc1BLAQIUAxQAAAAIAHkwj1xU+a6YdQMAAGoJAAAYAAAAAAAAAAAAAACAgQkhAAB4bC93b3Jrc2hlZXRzL3NoZWV0NS54bWxQSwECFAMUAAAACAB5MI9cGr+1dUADAAAbEQAADQAAAAAAAAAAAAAAgAG0JAAAeGwvc3R5bGVzLnhtbFBLAQIUAxQAAAAIAHkwj1yXirscwAAAABMCAAALAAAAAAAAAAAAAACAAR8oAABfcmVscy8ucmVsc1BLAQIUAxQAAAAIAHkwj1y9CsmnfgEAAGoEAAAPAAAAAAAAAAAAAACAAQgpAAB4bC93b3JrYm9vay54bWxQSwECFAMUAAAACAB5MI9chTlInccAAAA8BAAAGgAAAAAAAAAAAAAAgAGzKgAAeGwvX3JlbHMvd29ya2Jvb2sueG1sLnJlbHNQSwECFAMUAAAACAB5MI9c0rOKykMBAABvBwAAEwAAAAAAAAAAAAAAgAGyKwAAW0NvbnRlbnRfVHlwZXNdLnhtbFBLBQYAAAAAFAAUAGAFAAAmLQAAAAA=";
+  const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+  const blob = new Blob([bytes], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'flavours-client-growth-kit-workbook.xlsx';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+
+</script>
+</body>
+</html>
