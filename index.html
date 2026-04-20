@@ -417,7 +417,7 @@ function downloadWorkbook(){
   const blob = new Blob([bytes], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'flavours-client-growth-kit-workbook.xlsx';
+  a.download = 'flavours-client-growth-kit-workbook-v2.xlsx';
   document.body.appendChild(a);
   a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
